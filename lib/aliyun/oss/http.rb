@@ -263,7 +263,7 @@ module Aliyun
           :url => get_request_url(bucket, object),
           :headers => headers,
           :payload => http_options[:body],
-          :block_response => block_response,
+          # :block_response => block_response,
           # :open_timeout => @config.open_timeout || OPEN_TIMEOUT,
           # :read_timeout => @config.read_timeout || READ_TIMEOUT
           :open_timeout => 1,
