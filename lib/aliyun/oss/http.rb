@@ -258,15 +258,19 @@ module Aliyun
         headers[:params] = (sub_res || {}).merge(http_options[:query] || {})
 
         block_response = ->(r) { handle_response(r, &block) } if block
+        puts '****************'
         request = RestClient::Request.new(
           :method => verb,
           :url => get_request_url(bucket, object),
           :headers => headers,
           :payload => http_options[:body],
           :block_response => block_response,
-          :open_timeout => @config.open_timeout || OPEN_TIMEOUT,
-          :read_timeout => @config.read_timeout || READ_TIMEOUT
+          # :open_timeout => @config.open_timeout || OPEN_TIMEOUT,
+          # :read_timeout => @config.read_timeout || READ_TIMEOUT
+          :open_timeout => 10,
+          :read_timeout => 3
         )
+        puts '@@@@@@@@@@@@@@@@@@'
         response = request.execute do |resp, &blk|
           if resp.code >= 300
             e = ServerError.new(resp)
