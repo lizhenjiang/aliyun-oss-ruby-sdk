@@ -258,7 +258,8 @@ module Aliyun
         headers[:params] = (sub_res || {}).merge(http_options[:query] || {})
 
         block_response = ->(r) { handle_response(r, &block) } if block
-        puts '****************'
+        puts '1111111111'
+        start_time = Time.now.to_f
         request = RestClient::Request.new(
           :method => verb,
           :url => get_request_url(bucket, object),
@@ -267,10 +268,10 @@ module Aliyun
           :block_response => block_response,
           # :open_timeout => @config.open_timeout || OPEN_TIMEOUT,
           # :read_timeout => @config.read_timeout || READ_TIMEOUT
-          :open_timeout => 10,
-          :read_timeout => 3
+          :open_timeout => 1,
+          :read_timeout => 1
         )
-        puts '@@@@@@@@@@@@@@@@@@'
+        puts '2222222222'
         response = request.execute do |resp, &blk|
           if resp.code >= 300
             e = ServerError.new(resp)
@@ -280,6 +281,8 @@ module Aliyun
             resp.return!(&blk)
           end
         end
+        end_time = Time.now.to_f
+        puts "共耗时: #{ end_time - start_time }"
 
         # If streaming read_body is used, we need to create the
         # RestClient::Response ourselves
